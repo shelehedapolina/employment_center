@@ -8,26 +8,6 @@
 - **Серверна частина:** Node.js 20 + Express 4 + EJS
 - **Клієнт PostgreSQL:** pg (node-postgres)
 
-## Структура проєкту
-
-```
-employment_center/
-├── курсова_робота.docx       # Пояснювальна записка
-├── setup_windows.bat          # [Windows] Налаштування БД
-├── start_app.bat              # [Windows] Запуск веб-додатку
-├── run_queries.bat            # [Windows] Виконання SQL-запитів
-├── sql/
-│   ├── 01_schema.sql          # Створення таблиць та індексів
-│   ├── 02_data.sql            # Тестові дані (15+ записів на таблицю)
-│   └── 03_queries.sql         # 27 SQL-запитів за методичкою
-├── app/
-│   ├── server.js              # Express-сервер
-│   ├── package.json
-│   ├── public/style.css
-│   └── views/                 # EJS-шаблони
-└── screenshots/               # Скріншоти інтерфейсу та запитів
-```
-
 ---
 
 ## 🪟 Запуск на Windows
