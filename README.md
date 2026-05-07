@@ -29,13 +29,13 @@ docker compose up
 ### Перевірка SQL-запитів
 
 ```bash
-docker compose exec db psql -U ec_admin -d employment_center -f /docker-entrypoint-initdb.d/../sql/03_queries.sql
+docker compose exec -T db psql -U ec_admin -d employment_center < infrastructure/postgres/03_queries.sql
 ```
 
 або з хоста:
 
 ```bash
-PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/03_queries.sql
+PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f infrastructure/postgres/03_queries.sql
 ```
 
 ### Налаштування
@@ -71,14 +71,14 @@ sudo -u postgres psql -c "ALTER DATABASE employment_center OWNER TO ec_admin;"
 ### 2. Створення схеми та наповнення даними
 
 ```bash
-PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/01_schema.sql
-PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/02_data.sql
+PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f infrastructure/postgres/01_schema.sql
+PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f infrastructure/postgres/02_data.sql
 ```
 
 ### 3. Перевірка запитів
 
 ```bash
-PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/03_queries.sql
+PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f infrastructure/postgres/03_queries.sql
 ```
 
 ### 4. Запуск веб-додатку
