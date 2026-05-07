@@ -166,3 +166,17 @@ tr:hover { background: #f8fafc; }
 .bar-track { flex: 1; height: 24px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
 .bar-fill { height: 100%; background: var(--primary); display: flex; align-items: center; padding: 0 8px; color: white; font-size: 11px; font-weight: 600; }
 .bar-value { width: 60px; text-align: right; font-weight: 600; }
+
+.bar-track.mini { flex: none; width: 80px; height: 6px; margin-top: 4px; }
+.bar-track.mini .bar-fill { padding: 0; }
+
+.button-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+.button-row.tight { margin-top: 0; }
+
+.back-link { color: var(--text-muted); font-size: 12px; text-decoration: none; }
+.back-link:hover { color: var(--primary); }
+
+.inline-form { display: inline; }
+
+.status-form { display: flex; gap: 4px; }
+.status-form select { padding: 4px 8px; font-size: 12px; }

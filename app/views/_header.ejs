@@ -9,12 +9,8 @@
 <body>
   <nav>
     <div class="logo">📊 Центр зайнятості</div>
-    <a href="/" class="<%= typeof active!=='undefined' && active==='home' ? 'active' : '' %>">Головна</a>
-    <a href="/seekers" class="<%= typeof active!=='undefined' && active==='seekers' ? 'active' : '' %>">Шукачі</a>
-    <a href="/vacancies" class="<%= typeof active!=='undefined' && active==='vacancies' ? 'active' : '' %>">Вакансії</a>
-    <a href="/employers" class="<%= typeof active!=='undefined' && active==='employers' ? 'active' : '' %>">Роботодавці</a>
-    <a href="/applications" class="<%= typeof active!=='undefined' && active==='applications' ? 'active' : '' %>">Заявки</a>
-    <a href="/trainings" class="<%= typeof active!=='undefined' && active==='trainings' ? 'active' : '' %>">Навчання</a>
-    <a href="/analytics" class="<%= typeof active!=='undefined' && active==='analytics' ? 'active' : '' %>">Аналітика</a>
+    <% NAV_ITEMS.forEach(item => { %>
+      <a href="<%= item.href %>" class="<%= isActive(typeof active !== 'undefined' ? active : '', item.key) %>"><%= item.label %></a>
+    <% }) %>
   </nav>
   <div class="container">

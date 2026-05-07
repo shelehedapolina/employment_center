@@ -1,11 +1,11 @@
 <%- include('_header', { title: 'Підбір вакансій', active: 'seekers' }) %>
 
-<a href="/seekers/<%= seeker.seeker_id %>" class="muted" style="text-decoration:none;">← До картки шукача</a>
+<a href="/seekers/<%= seeker.seeker_id %>" class="back-link">← До картки шукача</a>
 <h1>🎯 Підбір вакансій для: <%= seeker.last_name %> <%= seeker.first_name %></h1>
 
 <div class="card">
   <h2>Параметри пошуку</h2>
-  <p><strong>Бажана зарплата:</strong> <%= seeker.desired_salary ? Number(seeker.desired_salary).toLocaleString('uk-UA') + ' ₴' : 'не вказано' %></p>
+  <p><strong>Бажана зарплата:</strong> <%= formatMoney(seeker.desired_salary, 'не вказано') %></p>
   <p class="muted">Алгоритм підбирає вакансії за професією та бажаною зарплатою. Score = 100 для повної відповідності за професією, 70 — якщо лише з/п підходить, 40 — близькі за з/п.</p>
 </div>
 
@@ -27,16 +27,15 @@
     <% matches.forEach(m => { %>
       <tr>
         <td>
-          <% const cls = m.match_score >= 90 ? 'score-high' : m.match_score >= 60 ? 'score-mid' : 'score-low'; %>
-          <span class="match-score <%= cls %>"><%= m.match_score %></span>
+          <span class="match-score <%= matchScoreClass(m.match_score) %>"><%= m.match_score %></span>
         </td>
         <td><strong><%= m.title %></strong></td>
         <td><%= m.company_name %><br><span class="muted"><%= m.industry %></span></td>
         <td class="muted"><%= m.profession_name %></td>
         <td><span class="badge badge-info"><%= m.work_schedule %></span></td>
         <td>
-          <%= Number(m.salary_min).toLocaleString('uk-UA') %> –
-          <strong><%= Number(m.salary_max).toLocaleString('uk-UA') %> ₴</strong>
+          <%= formatMoney(m.salary_min, '') %> –
+          <strong><%= formatMoney(m.salary_max) %></strong>
         </td>
       </tr>
     <% }) %>

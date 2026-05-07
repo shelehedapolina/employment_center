@@ -18,19 +18,16 @@
     <% applications.forEach(a => { %>
       <tr>
         <td><%= a.application_id %></td>
-        <td class="muted"><%= new Date(a.application_date).toLocaleDateString('uk-UA') %></td>
+        <td class="muted"><%= formatDate(a.application_date) %></td>
         <td><%= a.seeker_name %></td>
         <td><strong><%= a.vacancy_title %></strong></td>
         <td><%= a.company_name %></td>
         <td>
-          <% const cls = a.status==='Прийнята' ? 'badge-active' :
-                          a.status==='Відхилена' ? 'badge-inactive' :
-                          a.status==='Запрошено на співбесіду' ? 'badge-pending' : 'badge-info'; %>
-          <span class="badge <%= cls %>"><%= a.status %></span>
+          <span class="badge <%= applicationStatusClass(a.status) %>"><%= a.status %></span>
         </td>
         <td>
-          <form method="POST" action="/applications/<%= a.application_id %>/status" style="display:flex; gap: 4px;">
-            <select name="status" style="padding: 4px 8px; font-size: 12px;">
+          <form method="POST" action="/applications/<%= a.application_id %>/status" class="status-form">
+            <select name="status">
               <% ['Подана','На розгляді','Відхилена','Запрошено на співбесіду','Прийнята'].forEach(s => { %>
                 <option value="<%= s %>" <%= a.status===s ? 'selected' : '' %>><%= s %></option>
               <% }) %>

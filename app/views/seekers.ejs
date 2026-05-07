@@ -37,13 +37,10 @@
         <td><strong><%= s.last_name %> <%= s.first_name %></strong> <%= s.middle_name || '' %></td>
         <td><%= s.phone %></td>
         <td><%= s.profession_name %></td>
-        <td><%= s.desired_salary ? Number(s.desired_salary).toLocaleString('uk-UA') + ' ₴' : '—' %></td>
+        <td><%= formatMoney(s.desired_salary) %></td>
         <td class="muted"><%= s.consultant_name || '—' %></td>
         <td>
-          <% const cls = s.status==='Працевлаштований' ? 'badge-active' :
-                          s.status==='Шукає' ? 'badge-info' :
-                          s.status==='На навчанні' ? 'badge-pending' : 'badge-inactive'; %>
-          <span class="badge <%= cls %>"><%= s.status %></span>
+          <span class="badge <%= seekerStatusClass(s.status) %>"><%= s.status %></span>
         </td>
         <td>
           <div class="actions">

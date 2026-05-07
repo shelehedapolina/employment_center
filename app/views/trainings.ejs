@@ -21,19 +21,19 @@
         <td><%= t.training_id %></td>
         <td><strong><%= t.name %></strong></td>
         <td class="muted"><%= t.profession_name %></td>
-        <td><%= new Date(t.start_date).toLocaleDateString('uk-UA') %> – <%= new Date(t.end_date).toLocaleDateString('uk-UA') %></td>
+        <td><%= formatDate(t.start_date) %> – <%= formatDate(t.end_date) %></td>
         <td><%= t.duration_hours %></td>
         <td><%= t.instructor %></td>
         <td>
           <% const pct = (t.enrolled / t.max_students) * 100; %>
           <%= t.enrolled %> / <%= t.max_students %>
-          <div class="bar-track" style="width:80px; height:6px; margin-top:4px;">
-            <div class="bar-fill" style="width:<%= pct %>%; height:6px;"></div>
+          <div class="bar-track mini">
+            <div class="bar-fill" style="width:<%= pct %>%"></div>
           </div>
         </td>
         <td>
           <% if (t.cost > 0) { %>
-            <%= Number(t.cost).toLocaleString('uk-UA') %> ₴
+            <%= formatMoney(t.cost) %>
           <% } else { %>
             <span class="badge badge-active">Безкоштовно</span>
           <% } %>

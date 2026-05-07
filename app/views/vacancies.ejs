@@ -33,12 +33,12 @@
         <td class="muted"><%= v.industry %></td>
         <td><span class="badge badge-info"><%= v.work_schedule %></span></td>
         <td>
-          <%= Number(v.salary_min).toLocaleString('uk-UA') %> –
-          <strong><%= Number(v.salary_max).toLocaleString('uk-UA') %> ₴</strong>
+          <%= formatMoney(v.salary_min, '') %> –
+          <strong><%= formatMoney(v.salary_max) %></strong>
         </td>
-        <td class="muted"><%= new Date(v.posted_date).toLocaleDateString('uk-UA') %></td>
+        <td class="muted"><%= formatDate(v.posted_date) %></td>
         <td>
-          <form method="POST" action="/vacancies/<%= v.vacancy_id %>/delete" onsubmit="return confirm('Видалити?')">
+          <form method="POST" action="/vacancies/<%= v.vacancy_id %>/delete" class="inline-form" onsubmit="return confirm('Видалити?')">
             <button type="submit" class="btn btn-sm btn-danger">×</button>
           </form>
         </td>

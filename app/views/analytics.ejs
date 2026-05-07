@@ -30,7 +30,7 @@
         <div class="bar-track">
           <div class="bar-fill" style="width:<%= pct %>%"><%= p.open_vacs %> ваканс.</div>
         </div>
-        <div class="bar-value"><%= Number(p.avg_salary).toLocaleString('uk-UA') %> ₴</div>
+        <div class="bar-value"><%= formatMoney(p.avg_salary) %></div>
       </div>
     <% }) %>
   </div>
@@ -80,8 +80,8 @@
         <tr>
           <td><strong><%= i.industry %></strong></td>
           <td><%= i.vacancies_count %></td>
-          <td><%= Number(i.min_avg).toLocaleString('uk-UA') %> ₴</td>
-          <td><strong><%= Number(i.max_avg).toLocaleString('uk-UA') %> ₴</strong></td>
+          <td><%= formatMoney(i.min_avg) %></td>
+          <td><strong><%= formatMoney(i.max_avg) %></strong></td>
         </tr>
       <% }) %>
     </tbody>
