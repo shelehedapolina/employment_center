@@ -1,8 +1,3 @@
--- ============================================================
--- НАПОВНЕННЯ БАЗИ ДАНИХ ТЕСТОВИМИ ДАНИМИ
--- ============================================================
-
--- 1. Професії (20 записів)
 INSERT INTO professions (code, name, category, description) VALUES
 ('2131.2','Програміст','ІТ','Розробка програмного забезпечення'),
 ('2132.2','Системний адміністратор','ІТ','Адміністрування мереж та серверів'),
@@ -25,7 +20,6 @@ INSERT INTO professions (code, name, category, description) VALUES
 ('7233','Слюсар','Виробництво','Ремонт та обслуговування обладнання'),
 ('3431','Секретар','Адміністрація','Адміністративна підтримка');
 
--- 2. Консультанти (15 записів)
 INSERT INTO consultants (last_name, first_name, middle_name, position, phone, email, hire_date, office_room) VALUES
 ('Коваленко','Олена','Іванівна','Старший консультант','+380472654001','kovalenko@dcz.gov.ua','2018-03-15','201'),
 ('Шевченко','Андрій','Петрович','Консультант','+380472654002','shevchenko@dcz.gov.ua','2019-07-20','202'),
@@ -43,7 +37,6 @@ INSERT INTO consultants (last_name, first_name, middle_name, position, phone, em
 ('Павленко','Микола','Степанович','Консультант','+380472654014','pavlenko@dcz.gov.ua','2022-06-01','214'),
 ('Іванова','Анастасія','Дмитрівна','Консультант','+380472654015','ivanova@dcz.gov.ua','2023-01-20','215');
 
--- 3. Шукачі роботи (20 записів)
 INSERT INTO job_seekers (last_name, first_name, middle_name, birth_date, gender, passport_number, tax_id, phone, email, address, registration_date, status, desired_salary, profession_id, consultant_id) VALUES
 ('Гончарук','Олексій','Володимирович','1992-04-12','Ч','АА123456','1234567890','+380501112201','goncharuk@gmail.com','м. Черкаси, вул. Шевченка, 12','2025-01-15','Шукає',25000,1,1),
 ('Ткачук','Анна','Іванівна','1988-08-23','Ж','АА234567','2345678901','+380501112202','tkachuk@gmail.com','м. Черкаси, вул. Хрещатик, 45','2025-01-20','Шукає',18000,4,2),
@@ -66,7 +59,6 @@ INSERT INTO job_seekers (last_name, first_name, middle_name, birth_date, gender,
 ('Соколов','Павло','Юрійович','1995-03-26','Ч','АБ901234','9012340987','+380501112219','sokolov@gmail.com','м. Черкаси, вул. Сурикова, 45','2025-05-20','Шукає',27000,2,1),
 ('Романенко','Валентина','Михайлівна','1988-07-11','Ж','АБ012345','0123450987','+380501112220','romanenko@gmail.com','м. Черкаси, вул. В.Чорновола, 12','2025-05-25','Шукає',19000,20,2);
 
--- 4. Освіта (20 записів)
 INSERT INTO education (seeker_id, institution, degree, specialty, start_year, end_year) VALUES
 (1,'ЧНУ ім. Б. Хмельницького','Магістр','Інженерія програмного забезпечення',2010,2016),
 (2,'Київський національний економічний університет','Бакалавр','Облік і оподаткування',2006,2010),
@@ -89,7 +81,6 @@ INSERT INTO education (seeker_id, institution, degree, specialty, start_year, en
 (19,'НТУУ КПІ','Магістр','Системи штучного інтелекту',2013,2019),
 (20,'Черкаський бізнес-коледж','Молодший спеціаліст','Діловодство',2006,2009);
 
--- 5. Досвід роботи (20 записів)
 INSERT INTO work_experience (seeker_id, company_name, position, start_date, end_date, reason_left) VALUES
 (1,'ТОВ "СофтТек"','Junior Developer','2016-08-01','2019-12-15','За власним бажанням'),
 (1,'ПП "АйТі Сервіс"','Middle Developer','2020-01-10','2024-11-30','Скорочення штату'),
@@ -112,7 +103,6 @@ INSERT INTO work_experience (seeker_id, company_name, position, start_date, end_
 (18,'ТОВ "Кадри і Право"','HR-менеджер','2010-02-10','2025-05-05','Скорочення штату'),
 (19,'ТОВ "АйТіСолюшнс"','Системний адміністратор','2019-08-15','2025-05-10','За власним бажанням');
 
--- 6. Роботодавці (16 записів)
 INSERT INTO employers (company_name, legal_form, edrpou, industry, address, contact_person, phone, email, employee_count) VALUES
 ('СофтПро Україна','ТОВ','12345678','ІТ','м. Черкаси, вул. Хрещатик, 200','Іваненко О.І.','+380472333101','hr@softpro.ua',45),
 ('Бухгалтерія+','ТОВ','23456789','Фінанси','м. Черкаси, вул. Гоголя, 50','Петренко В.С.','+380472333102','jobs@buh.ua',12),
@@ -131,7 +121,6 @@ INSERT INTO employers (company_name, legal_form, edrpou, industry, address, cont
 ('Медіа Черкаси','ТОВ','55566677','Медіа','м. Черкаси, вул. Б. Хмельницького, 110','Білик А.Д.','+380472333115','jobs@media-ck.ua',22),
 ('КадриПлюс','ТОВ','66677788','Управління персоналом','м. Черкаси, вул. Митницька, 8','Захарченко С.П.','+380472333116','info@kadry.ua',10);
 
--- 7. Вакансії (20 записів)
 INSERT INTO vacancies (employer_id, profession_id, title, description, salary_min, salary_max, work_schedule, experience_required, posted_date, closing_date, status) VALUES
 (1,1,'Senior Backend розробник','Розробка серверної частини веб-додатків на Node.js',35000,50000,'Повний день',3,'2025-04-01',NULL,'Активна'),
 (1,1,'Junior Frontend розробник','Розробка інтерфейсів на React',18000,25000,'Повний день',1,'2025-04-15',NULL,'Активна'),
@@ -154,7 +143,6 @@ INSERT INTO vacancies (employer_id, profession_id, title, description, salary_mi
 (14,15,'Перекладач англ.-укр.','Письмовий переклад технічних текстів',18000,25000,'Віддалено',1,'2025-05-08',NULL,'Активна'),
 (15,16,'Журналіст','Підготовка матеріалів для онлайн-видання',15000,22000,'Гнучкий',1,'2025-04-30','2025-08-31','Закрита');
 
--- 8. Заявки (22 записи)
 INSERT INTO applications (seeker_id, vacancy_id, application_date, status, interview_date, notes) VALUES
 (1,1,'2025-04-05','Запрошено на співбесіду','2025-04-12','Сильний кандидат, 8 років досвіду'),
 (1,2,'2025-04-16','Подана',NULL,NULL),
@@ -179,7 +167,6 @@ INSERT INTO applications (seeker_id, vacancy_id, application_date, status, inter
 (16,19,'2025-05-09','Подана',NULL,NULL),
 (17,11,'2025-05-11','На розгляді',NULL,NULL);
 
--- 9. Працевлаштування (5 записів - тільки для прийнятих заявок)
 INSERT INTO placements (application_id, hire_date, actual_salary, contract_type, probation_months) VALUES
 (5,'2025-04-15',25000,'Безстроковий',3),
 (9,'2025-04-22',18000,'Контракт',2),
@@ -187,14 +174,12 @@ INSERT INTO placements (application_id, hire_date, actual_salary, contract_type,
 (19,'2025-05-12',26000,'Безстроковий',3),
 ((SELECT application_id FROM applications WHERE seeker_id=1 AND vacancy_id=1),'2025-04-20',45000,'Безстроковий',3);
 
--- Уточнення: давайте додамо більше для відповідності
 INSERT INTO placements (application_id, hire_date, actual_salary, contract_type, probation_months)
 SELECT application_id, '2025-04-25', 22000, 'Строковий', 3
 FROM applications
 WHERE seeker_id = 4 AND vacancy_id = 6
 ON CONFLICT DO NOTHING;
 
--- 10. Навчальні програми (15 записів)
 INSERT INTO trainings (name, profession_id, duration_hours, start_date, end_date, cost, max_students, instructor) VALUES
 ('Основи Python програмування',1,120,'2025-05-01','2025-07-15',0,20,'Іваненко В.І.'),
 ('Frontend розробка з нуля',1,160,'2025-06-01','2025-08-30',0,15,'Петренко О.С.'),
@@ -212,7 +197,6 @@ INSERT INTO trainings (name, profession_id, duration_hours, start_date, end_date
 ('Аналіз даних SQL+Excel',3,100,'2025-06-15','2025-09-30',0,18,'Литвин І.С.'),
 ('Курси секретарів',20,80,'2025-05-25','2025-07-25',1500,15,'Гриценко Ю.В.');
 
--- 11. Записи на навчання (18 записів)
 INSERT INTO training_enrollments (seeker_id, training_id, enrollment_date, completion_status, final_grade) VALUES
 (5,14,'2025-04-25','Навчається',NULL),
 (11,10,'2025-04-08','Навчається',NULL),
@@ -233,11 +217,9 @@ INSERT INTO training_enrollments (seeker_id, training_id, enrollment_date, compl
 (3,3,'2025-05-12','Зарахований',NULL),
 (19,3,'2025-05-12','Зарахований',NULL);
 
--- Оновлення статусу: ті, хто на навчанні
 UPDATE job_seekers SET status='На навчанні'
 WHERE seeker_id IN (5,11) AND status='Шукає';
 
--- Перевірка наповненості
 SELECT 'professions' AS table_name, COUNT(*) AS rows FROM professions
 UNION ALL SELECT 'consultants',  COUNT(*) FROM consultants
 UNION ALL SELECT 'job_seekers',  COUNT(*) FROM job_seekers

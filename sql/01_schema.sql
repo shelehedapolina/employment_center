@@ -1,24 +1,15 @@
--- ============================================================
--- ІНФОРМАЦІЙНА СИСТЕМА ЦЕНТРУ ЗАЙНЯТОСТІ
--- Схема бази даних (PostgreSQL)
--- ============================================================
-
--- Очищення (для повторного запуску)
-DROP TABLE IF EXISTS placements          CASCADE;
-DROP TABLE IF EXISTS applications        CASCADE;
+DROP TABLE IF EXISTS placements           CASCADE;
+DROP TABLE IF EXISTS applications         CASCADE;
 DROP TABLE IF EXISTS training_enrollments CASCADE;
-DROP TABLE IF EXISTS trainings           CASCADE;
-DROP TABLE IF EXISTS work_experience     CASCADE;
-DROP TABLE IF EXISTS education           CASCADE;
-DROP TABLE IF EXISTS vacancies           CASCADE;
-DROP TABLE IF EXISTS employers           CASCADE;
-DROP TABLE IF EXISTS job_seekers         CASCADE;
-DROP TABLE IF EXISTS professions         CASCADE;
-DROP TABLE IF EXISTS consultants         CASCADE;
+DROP TABLE IF EXISTS trainings            CASCADE;
+DROP TABLE IF EXISTS work_experience      CASCADE;
+DROP TABLE IF EXISTS education            CASCADE;
+DROP TABLE IF EXISTS vacancies            CASCADE;
+DROP TABLE IF EXISTS employers            CASCADE;
+DROP TABLE IF EXISTS job_seekers          CASCADE;
+DROP TABLE IF EXISTS professions          CASCADE;
+DROP TABLE IF EXISTS consultants          CASCADE;
 
--- ============================================================
--- 1. Довідник професій
--- ============================================================
 CREATE TABLE professions (
     profession_id   SERIAL PRIMARY KEY,
     code            VARCHAR(10)  NOT NULL UNIQUE,
@@ -27,12 +18,6 @@ CREATE TABLE professions (
     description     TEXT
 );
 
-COMMENT ON TABLE  professions IS 'Довідник професій (класифікатор)';
-COMMENT ON COLUMN professions.code IS 'Код професії згідно класифікатора';
-
--- ============================================================
--- 2. Консультанти центру зайнятості
--- ============================================================
 CREATE TABLE consultants (
     consultant_id   SERIAL PRIMARY KEY,
     last_name       VARCHAR(50)  NOT NULL,
@@ -45,11 +30,6 @@ CREATE TABLE consultants (
     office_room     VARCHAR(10)
 );
 
-COMMENT ON TABLE consultants IS 'Працівники (консультанти) центру зайнятості';
-
--- ============================================================
--- 3. Шукачі роботи (безробітні / претенденти)
--- ============================================================
 CREATE TABLE job_seekers (
     seeker_id       SERIAL PRIMARY KEY,
     last_name       VARCHAR(50)  NOT NULL,
@@ -70,11 +50,6 @@ CREATE TABLE job_seekers (
     consultant_id   INT REFERENCES consultants(consultant_id)
 );
 
-COMMENT ON TABLE job_seekers IS 'Шукачі роботи, зареєстровані в центрі зайнятості';
-
--- ============================================================
--- 4. Освіта шукачів
--- ============================================================
 CREATE TABLE education (
     education_id    SERIAL PRIMARY KEY,
     seeker_id       INT NOT NULL REFERENCES job_seekers(seeker_id) ON DELETE CASCADE,
@@ -88,11 +63,6 @@ CREATE TABLE education (
     CHECK (end_year IS NULL OR end_year >= start_year)
 );
 
-COMMENT ON TABLE education IS 'Записи про освіту шукачів роботи';
-
--- ============================================================
--- 5. Досвід роботи
--- ============================================================
 CREATE TABLE work_experience (
     experience_id   SERIAL PRIMARY KEY,
     seeker_id       INT NOT NULL REFERENCES job_seekers(seeker_id) ON DELETE CASCADE,
@@ -104,11 +74,6 @@ CREATE TABLE work_experience (
     CHECK (end_date IS NULL OR end_date >= start_date)
 );
 
-COMMENT ON TABLE work_experience IS 'Попередній досвід роботи шукачів';
-
--- ============================================================
--- 6. Роботодавці
--- ============================================================
 CREATE TABLE employers (
     employer_id     SERIAL PRIMARY KEY,
     company_name    VARCHAR(200) NOT NULL,
@@ -123,11 +88,6 @@ CREATE TABLE employers (
     employee_count  INT CHECK (employee_count > 0)
 );
 
-COMMENT ON TABLE employers IS 'Підприємства-роботодавці';
-
--- ============================================================
--- 7. Вакансії
--- ============================================================
 CREATE TABLE vacancies (
     vacancy_id      SERIAL PRIMARY KEY,
     employer_id     INT NOT NULL REFERENCES employers(employer_id),
@@ -147,11 +107,6 @@ CREATE TABLE vacancies (
     CHECK (closing_date IS NULL OR closing_date >= posted_date)
 );
 
-COMMENT ON TABLE vacancies IS 'Відкриті вакансії від роботодавців';
-
--- ============================================================
--- 8. Заявки шукачів на вакансії
--- ============================================================
 CREATE TABLE applications (
     application_id  SERIAL PRIMARY KEY,
     seeker_id       INT NOT NULL REFERENCES job_seekers(seeker_id),
@@ -164,11 +119,6 @@ CREATE TABLE applications (
     UNIQUE (seeker_id, vacancy_id)
 );
 
-COMMENT ON TABLE applications IS 'Заявки шукачів на конкретні вакансії';
-
--- ============================================================
--- 9. Працевлаштування (успішні)
--- ============================================================
 CREATE TABLE placements (
     placement_id    SERIAL PRIMARY KEY,
     application_id  INT NOT NULL UNIQUE REFERENCES applications(application_id),
@@ -179,11 +129,6 @@ CREATE TABLE placements (
     probation_months INT         CHECK (probation_months BETWEEN 0 AND 6)
 );
 
-COMMENT ON TABLE placements IS 'Факти успішного працевлаштування';
-
--- ============================================================
--- 10. Навчальні програми (перекваліфікація)
--- ============================================================
 CREATE TABLE trainings (
     training_id     SERIAL PRIMARY KEY,
     name            VARCHAR(200) NOT NULL,
@@ -197,11 +142,6 @@ CREATE TABLE trainings (
     CHECK (end_date > start_date)
 );
 
-COMMENT ON TABLE trainings IS 'Навчальні програми перекваліфікації';
-
--- ============================================================
--- 11. Записи на навчання
--- ============================================================
 CREATE TABLE training_enrollments (
     enrollment_id   SERIAL PRIMARY KEY,
     seeker_id       INT NOT NULL REFERENCES job_seekers(seeker_id),
@@ -213,11 +153,6 @@ CREATE TABLE training_enrollments (
     UNIQUE (seeker_id, training_id)
 );
 
-COMMENT ON TABLE training_enrollments IS 'Записи шукачів на навчальні програми';
-
--- ============================================================
--- Індекси для швидкого пошуку
--- ============================================================
 CREATE INDEX idx_seekers_status      ON job_seekers(status);
 CREATE INDEX idx_seekers_profession  ON job_seekers(profession_id);
 CREATE INDEX idx_vacancies_status    ON vacancies(status);
