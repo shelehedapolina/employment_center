@@ -1,0 +1,42 @@
+<%- include('_header', { title: 'Головна', active: 'home' }) %>
+
+<h1>Інформаційна система центру зайнятості</h1>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="label">Активних шукачів</div>
+    <div class="value"><%= stats.active_seekers %></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Відкритих вакансій</div>
+    <div class="value"><%= stats.open_vacancies %></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Роботодавців</div>
+    <div class="value"><%= stats.employers_count %></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Працевлаштовано</div>
+    <div class="value"><%= stats.placements_count %></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Навчальних програм</div>
+    <div class="value"><%= stats.trainings_count %></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Заявок на розгляді</div>
+    <div class="value"><%= stats.pending_apps %></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Швидкий доступ</h2>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a href="/seekers/new" class="btn btn-primary">+ Зареєструвати шукача</a>
+    <a href="/vacancies/new" class="btn btn-primary">+ Додати вакансію</a>
+    <a href="/applications" class="btn btn-secondary">Розглянути заявки</a>
+    <a href="/analytics" class="btn btn-secondary">Аналітика та звіти</a>
+  </div>
+</div>
+
+<%- include('_footer') %>

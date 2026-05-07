@@ -1,0 +1,102 @@
+<%- include('_header', { title: 'Картка шукача', active: 'seekers' }) %>
+
+<a href="/seekers" class="muted" style="text-decoration:none;">← Назад до списку</a>
+<h1><%= s.last_name %> <%= s.first_name %> <%= s.middle_name || '' %></h1>
+
+<div class="card">
+  <h2>Особисті дані</h2>
+  <div class="form-grid">
+    <div><strong>Дата народження:</strong> <%= new Date(s.birth_date).toLocaleDateString('uk-UA') %></div>
+    <div><strong>Стать:</strong> <%= s.gender === 'Ч' ? 'Чоловіча' : 'Жіноча' %></div>
+    <div><strong>Паспорт:</strong> <%= s.passport_number %></div>
+    <div><strong>ІПН:</strong> <%= s.tax_id || '—' %></div>
+    <div><strong>Телефон:</strong> <%= s.phone %></div>
+    <div><strong>Email:</strong> <%= s.email || '—' %></div>
+    <div class="full"><strong>Адреса:</strong> <%= s.address %></div>
+    <div><strong>Професія:</strong> <%= s.profession_name %></div>
+    <div><strong>Бажана з/п:</strong> <%= s.desired_salary ? Number(s.desired_salary).toLocaleString('uk-UA') + ' ₴' : '—' %></div>
+    <div><strong>Консультант:</strong> <%= s.consultant_name || '—' %></div>
+    <div><strong>Статус:</strong> <%= s.status %></div>
+    <div><strong>Дата реєстрації:</strong> <%= new Date(s.registration_date).toLocaleDateString('uk-UA') %></div>
+  </div>
+  <div style="margin-top: 16px;">
+    <a href="/match/<%= s.seeker_id %>" class="btn btn-primary">🎯 Підібрати вакансії</a>
+    <form method="POST" action="/seekers/<%= s.seeker_id %>/delete" style="display:inline" onsubmit="return confirm('Видалити шукача?')">
+      <button type="submit" class="btn btn-danger">Видалити</button>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Освіта (<%= education.length %>)</h2>
+  <% if (education.length === 0) { %>
+    <p class="muted">Немає записів про освіту</p>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Заклад</th><th>Ступінь</th><th>Спеціальність</th><th>Роки</th></tr></thead>
+      <tbody>
+        <% education.forEach(e => { %>
+          <tr>
+            <td><%= e.institution %></td>
+            <td><span class="badge badge-info"><%= e.degree %></span></td>
+            <td><%= e.specialty %></td>
+            <td><%= e.start_year %>–<%= e.end_year || '...' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<div class="card">
+  <h2>Досвід роботи (<%= experience.length %>)</h2>
+  <% if (experience.length === 0) { %>
+    <p class="muted">Немає записів про досвід</p>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Компанія</th><th>Посада</th><th>Період</th><th>Причина звільнення</th></tr></thead>
+      <tbody>
+        <% experience.forEach(w => { %>
+          <tr>
+            <td><strong><%= w.company_name %></strong></td>
+            <td><%= w.position %></td>
+            <td>
+              <%= new Date(w.start_date).toLocaleDateString('uk-UA') %> –
+              <%= w.end_date ? new Date(w.end_date).toLocaleDateString('uk-UA') : 'теперішній час' %>
+            </td>
+            <td class="muted"><%= w.reason_left || '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<div class="card">
+  <h2>Заявки на вакансії (<%= applications.length %>)</h2>
+  <% if (applications.length === 0) { %>
+    <p class="muted">Шукач ще не подавав заявки</p>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Дата</th><th>Вакансія</th><th>Компанія</th><th>Статус</th><th>Співбесіда</th></tr></thead>
+      <tbody>
+        <% applications.forEach(a => { %>
+          <tr>
+            <td><%= new Date(a.application_date).toLocaleDateString('uk-UA') %></td>
+            <td><%= a.title %></td>
+            <td><%= a.company_name %></td>
+            <td>
+              <% const cls = a.status==='Прийнята' ? 'badge-active' :
+                              a.status==='Відхилена' ? 'badge-inactive' :
+                              a.status==='Запрошено на співбесіду' ? 'badge-pending' : 'badge-info'; %>
+              <span class="badge <%= cls %>"><%= a.status %></span>
+            </td>
+            <td><%= a.interview_date ? new Date(a.interview_date).toLocaleDateString('uk-UA') : '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

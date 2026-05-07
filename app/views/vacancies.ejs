@@ -1,0 +1,50 @@
+<%- include('_header', { title: 'Вакансії', active: 'vacancies' }) %>
+
+<h1>Активні вакансії</h1>
+
+<form method="GET" action="/vacancies" class="toolbar">
+  <input type="number" name="minSalary" value="<%= minSalary %>" placeholder="Мін. зарплата" min="0" step="1000">
+  <button type="submit" class="btn btn-primary">Фільтр</button>
+  <a href="/vacancies/new" class="btn btn-success">+ Додати вакансію</a>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Посада</th>
+      <th>Компанія</th>
+      <th>Галузь</th>
+      <th>Графік</th>
+      <th>Зарплата</th>
+      <th>Дата</th>
+      <th>Дії</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (vacancies.length === 0) { %>
+      <tr><td colspan="8" class="empty-state">Активних вакансій не знайдено</td></tr>
+    <% } %>
+    <% vacancies.forEach(v => { %>
+      <tr>
+        <td><%= v.vacancy_id %></td>
+        <td><strong><%= v.title %></strong><br><span class="muted"><%= v.profession_name %></span></td>
+        <td><%= v.company_name %></td>
+        <td class="muted"><%= v.industry %></td>
+        <td><span class="badge badge-info"><%= v.work_schedule %></span></td>
+        <td>
+          <%= Number(v.salary_min).toLocaleString('uk-UA') %> –
+          <strong><%= Number(v.salary_max).toLocaleString('uk-UA') %> ₴</strong>
+        </td>
+        <td class="muted"><%= new Date(v.posted_date).toLocaleDateString('uk-UA') %></td>
+        <td>
+          <form method="POST" action="/vacancies/<%= v.vacancy_id %>/delete" onsubmit="return confirm('Видалити?')">
+            <button type="submit" class="btn btn-sm btn-danger">×</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('_footer') %>

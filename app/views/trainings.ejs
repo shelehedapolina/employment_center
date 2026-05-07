@@ -1,0 +1,46 @@
+<%- include('_header', { title: 'Навчання', active: 'trainings' }) %>
+
+<h1>Навчальні програми</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Назва</th>
+      <th>Професія</th>
+      <th>Період</th>
+      <th>Годин</th>
+      <th>Викладач</th>
+      <th>Зараховано / Місць</th>
+      <th>Вартість</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% trainings.forEach(t => { %>
+      <tr>
+        <td><%= t.training_id %></td>
+        <td><strong><%= t.name %></strong></td>
+        <td class="muted"><%= t.profession_name %></td>
+        <td><%= new Date(t.start_date).toLocaleDateString('uk-UA') %> – <%= new Date(t.end_date).toLocaleDateString('uk-UA') %></td>
+        <td><%= t.duration_hours %></td>
+        <td><%= t.instructor %></td>
+        <td>
+          <% const pct = (t.enrolled / t.max_students) * 100; %>
+          <%= t.enrolled %> / <%= t.max_students %>
+          <div class="bar-track" style="width:80px; height:6px; margin-top:4px;">
+            <div class="bar-fill" style="width:<%= pct %>%; height:6px;"></div>
+          </div>
+        </td>
+        <td>
+          <% if (t.cost > 0) { %>
+            <%= Number(t.cost).toLocaleString('uk-UA') %> ₴
+          <% } else { %>
+            <span class="badge badge-active">Безкоштовно</span>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('_footer') %>

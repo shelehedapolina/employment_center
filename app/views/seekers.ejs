@@ -1,0 +1,59 @@
+<%- include('_header', { title: 'Шукачі роботи', active: 'seekers' }) %>
+
+<h1>Шукачі роботи</h1>
+
+<form method="GET" action="/seekers" class="toolbar">
+  <input type="text" name="search" value="<%= search %>" placeholder="Пошук за прізвищем або ім'ям">
+  <select name="status">
+    <option value="">Усі статуси</option>
+    <% ['Шукає','Працевлаштований','На навчанні','Знятий з обліку'].forEach(s => { %>
+      <option value="<%= s %>" <%= status===s ? 'selected' : '' %>><%= s %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="btn btn-primary">Знайти</button>
+  <a href="/seekers/new" class="btn btn-success">+ Новий шукач</a>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>ПІБ</th>
+      <th>Телефон</th>
+      <th>Професія</th>
+      <th>Бажана з/п</th>
+      <th>Консультант</th>
+      <th>Статус</th>
+      <th>Дії</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (seekers.length === 0) { %>
+      <tr><td colspan="8" class="empty-state">Шукачів не знайдено</td></tr>
+    <% } %>
+    <% seekers.forEach(s => { %>
+      <tr>
+        <td><%= s.seeker_id %></td>
+        <td><strong><%= s.last_name %> <%= s.first_name %></strong> <%= s.middle_name || '' %></td>
+        <td><%= s.phone %></td>
+        <td><%= s.profession_name %></td>
+        <td><%= s.desired_salary ? Number(s.desired_salary).toLocaleString('uk-UA') + ' ₴' : '—' %></td>
+        <td class="muted"><%= s.consultant_name || '—' %></td>
+        <td>
+          <% const cls = s.status==='Працевлаштований' ? 'badge-active' :
+                          s.status==='Шукає' ? 'badge-info' :
+                          s.status==='На навчанні' ? 'badge-pending' : 'badge-inactive'; %>
+          <span class="badge <%= cls %>"><%= s.status %></span>
+        </td>
+        <td>
+          <div class="actions">
+            <a href="/seekers/<%= s.seeker_id %>" class="btn btn-sm btn-secondary">Детально</a>
+            <a href="/match/<%= s.seeker_id %>" class="btn btn-sm btn-primary">Підбір</a>
+          </div>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('_footer') %>

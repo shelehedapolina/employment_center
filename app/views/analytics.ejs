@@ -1,0 +1,91 @@
+<%- include('_header', { title: 'Аналітика', active: 'analytics' }) %>
+
+<h1>Аналітика та звіти</h1>
+
+<div class="card">
+  <h2>📊 Розподіл шукачів за статусом</h2>
+  <% const totalSeekers = statusDist.reduce((sum, s) => sum + parseInt(s.cnt), 0); %>
+  <div class="bar-chart">
+    <% statusDist.forEach(s => { %>
+      <% const pct = (s.cnt / totalSeekers) * 100; %>
+      <div class="bar-row">
+        <div class="bar-label"><%= s.status %></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:<%= pct %>%"><%= pct.toFixed(1) %>%</div>
+        </div>
+        <div class="bar-value"><%= s.cnt %></div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 Топ-10 професій за відкритими вакансіями</h2>
+  <% const maxOpen = Math.max(...topProfessions.map(p => p.open_vacs)); %>
+  <div class="bar-chart">
+    <% topProfessions.forEach(p => { %>
+      <% const pct = (p.open_vacs / maxOpen) * 100; %>
+      <div class="bar-row">
+        <div class="bar-label"><%= p.name %></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:<%= pct %>%"><%= p.open_vacs %> ваканс.</div>
+        </div>
+        <div class="bar-value"><%= Number(p.avg_salary).toLocaleString('uk-UA') %> ₴</div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<div class="card">
+  <h2>👥 Ефективність консультантів</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Консультант</th>
+        <th>Шукачів</th>
+        <th>Працевлаштовано</th>
+        <th>Ефективність</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% consEff.forEach(c => { %>
+        <tr>
+          <td><%= c.consultant %></td>
+          <td><%= c.total_seekers %></td>
+          <td><%= c.placements %></td>
+          <td>
+            <% const eff = parseFloat(c.efficiency_pct); %>
+            <% const cls = eff >= 50 ? 'badge-active' : eff >= 25 ? 'badge-pending' : 'badge-inactive'; %>
+            <span class="badge <%= cls %>"><%= c.efficiency_pct %>%</span>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>🏭 Ринок праці за галузями</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Галузь</th>
+        <th>К-сть вакансій</th>
+        <th>Сер. мін. з/п</th>
+        <th>Сер. макс. з/п</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% industryStats.forEach(i => { %>
+        <tr>
+          <td><strong><%= i.industry %></strong></td>
+          <td><%= i.vacancies_count %></td>
+          <td><%= Number(i.min_avg).toLocaleString('uk-UA') %> ₴</td>
+          <td><strong><%= Number(i.max_avg).toLocaleString('uk-UA') %> ₴</strong></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('_footer') %>

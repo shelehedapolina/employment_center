@@ -1,0 +1,59 @@
+<%- include('_header', { title: 'Нова вакансія', active: 'vacancies' }) %>
+
+<h1>Додавання нової вакансії</h1>
+
+<div class="card">
+  <form method="POST" action="/vacancies">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Роботодавець *</label>
+        <select name="employer_id" required>
+          <% employers.forEach(e => { %>
+            <option value="<%= e.employer_id %>"><%= e.company_name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Професія *</label>
+        <select name="profession_id" required>
+          <% professions.forEach(p => { %>
+            <option value="<%= p.profession_id %>"><%= p.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Назва посади *</label>
+        <input type="text" name="title" required>
+      </div>
+      <div class="form-group full">
+        <label>Опис вакансії *</label>
+        <textarea name="description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Мін. зарплата (₴) *</label>
+        <input type="number" name="salary_min" required min="0" step="100">
+      </div>
+      <div class="form-group">
+        <label>Макс. зарплата (₴) *</label>
+        <input type="number" name="salary_max" required min="0" step="100">
+      </div>
+      <div class="form-group">
+        <label>Графік роботи *</label>
+        <select name="work_schedule" required>
+          <option>Повний день</option><option>Неповний день</option>
+          <option>Змінний</option><option>Гнучкий</option><option>Віддалено</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Мін. досвід (років)</label>
+        <input type="number" name="experience_required" value="0" min="0" max="50">
+      </div>
+    </div>
+    <div style="margin-top: 24px; display: flex; gap: 12px;">
+      <button type="submit" class="btn btn-primary">Опублікувати</button>
+      <a href="/vacancies" class="btn btn-secondary">Скасувати</a>
+    </div>
+  </form>
+</div>
+
+<%- include('_footer') %>

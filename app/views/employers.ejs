@@ -1,0 +1,40 @@
+<%- include('_header', { title: 'Роботодавці', active: 'employers' }) %>
+
+<h1>Роботодавці</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>№</th>
+      <th>Компанія</th>
+      <th>Форма</th>
+      <th>ЄДРПОУ</th>
+      <th>Галузь</th>
+      <th>Контакт</th>
+      <th>Працівників</th>
+      <th>Активних вакансій</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% employers.forEach(e => { %>
+      <tr>
+        <td><%= e.employer_id %></td>
+        <td><strong><%= e.company_name %></strong><br><span class="muted"><%= e.address %></span></td>
+        <td><span class="badge badge-info"><%= e.legal_form %></span></td>
+        <td><%= e.edrpou %></td>
+        <td><%= e.industry %></td>
+        <td><%= e.contact_person %><br><span class="muted"><%= e.phone %></span></td>
+        <td><%= e.employee_count %></td>
+        <td>
+          <% if (e.active_vacancies > 0) { %>
+            <span class="badge badge-active"><%= e.active_vacancies %></span>
+          <% } else { %>
+            <span class="muted">0</span>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('_footer') %>
