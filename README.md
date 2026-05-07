@@ -7,64 +7,57 @@
 - **СКБД:** PostgreSQL 16
 - **Серверна частина:** Node.js 20 + Express 4 + EJS
 - **Клієнт PostgreSQL:** pg (node-postgres)
+- **Контейнеризація:** Docker + Docker Compose
 
 ---
 
-## 🪟 Запуск на Windows
+## Запуск через Docker (рекомендовано)
 
 ### Вимоги
 
-1. **PostgreSQL 16** — https://www.postgresql.org/download/windows/
-   - При встановленні запам'ятайте пароль користувача `postgres`
-   - Переконайтесь, що галочка "Add to PATH" стоїть (або додайте вручну `C:\Program Files\PostgreSQL\16\bin`)
+- [Docker](https://docs.docker.com/get-docker/) 24+
+- [Docker Compose](https://docs.docker.com/compose/install/) v2
 
-2. **Node.js 20+** — https://nodejs.org/
+### Запуск
 
-### Крок 1 — Налаштування бази даних
+```bash
+docker compose up
 
-Двічі клікніть на файл `setup_windows.bat` (або запустіть через командний рядок від імені адміністратора).
-
-Скрипт запитає пароль користувача `postgres` (той, що ви вказали при встановленні PostgreSQL) та автоматично:
-- Створить базу даних `employment_center`
-- Створить користувача `ec_admin` з паролем `ec_pass`
-- Застосує схему таблиць
-- Завантажить тестові дані
-
-### Крок 2 — Запуск веб-додатку
-
-Двічі клікніть на файл `start_app.bat`.
-
-Скрипт встановить залежності npm та запустить сервер.
-
+```
 Відкрийте браузер: **http://localhost:3000**
 
-### Крок 3 — Перевірка SQL-запитів (необов'язково)
+### Перевірка SQL-запитів
 
-Двічі клікніть на файл `run_queries.bat`.
+```bash
+docker compose exec db psql -U ec_admin -d employment_center -f /docker-entrypoint-initdb.d/../sql/03_queries.sql
+```
 
-### Ручний запуск через командний рядок (Windows)
+або з хоста:
 
-```cmd
-REM Крок 1 — БД (від імені адміністратора)
-psql -U postgres -c "CREATE DATABASE employment_center;"
-psql -U postgres -c "CREATE USER ec_admin WITH PASSWORD 'ec_pass';"
-psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE employment_center TO ec_admin;"
-psql -U postgres -c "ALTER DATABASE employment_center OWNER TO ec_admin;"
+```bash
+PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/03_queries.sql
+```
 
-REM Крок 2 — Схема та дані
-set PGPASSWORD=ec_pass
-psql -h localhost -U ec_admin -d employment_center -f sql\01_schema.sql
-psql -h localhost -U ec_admin -d employment_center -f sql\02_data.sql
+### Налаштування
 
-REM Крок 3 — Веб-додаток
-cd app
-npm install
-node server.js
+Значення за замовчуванням визначені в `docker-compose.yml`. Для перевизначення створіть файл `.env` поряд із `docker-compose.yml`:
+
+```env
+POSTGRES_DB=employment_center
+POSTGRES_USER=ec_admin
+POSTGRES_PASSWORD=ec_pass
+POSTGRES_PORT=5432
+PORT=3000
 ```
 
 ---
 
-## 🐧 Запуск на Linux / macOS
+## 🛠 Запуск без Docker (локально)
+
+### Вимоги
+
+- PostgreSQL 16
+- Node.js 20+
 
 ### 1. Створення бази даних
 
@@ -92,8 +85,9 @@ PGPASSWORD=ec_pass psql -h localhost -U ec_admin -d employment_center -f sql/03_
 
 ```bash
 cd app
+cp .env.example .env   # за потреби відредагуйте значення
 npm install
-node server.js
+npm start
 ```
 
 Сервер запускається за адресою `http://localhost:3000`.
