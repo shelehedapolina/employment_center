@@ -2,7 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const pool    = require('../config/db');
 
-// Список активних вакансій
 router.get('/', async (req, res) => {
   const { minSalary = '' } = req.query;
   const params = [];
@@ -29,7 +28,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Форма нової вакансії
 router.get('/new', async (req, res) => {
   const [emps, profs] = await Promise.all([
     pool.query('SELECT * FROM employers   ORDER BY company_name'),
@@ -42,7 +40,6 @@ router.get('/new', async (req, res) => {
   });
 });
 
-// Збереження нової вакансії
 router.post('/', async (req, res) => {
   const b = req.body;
   try {
@@ -62,7 +59,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Видалення вакансії
 router.post('/:id/delete', async (req, res) => {
   await pool.query('DELETE FROM vacancies WHERE vacancy_id = $1', [req.params.id]);
   res.redirect('/vacancies');

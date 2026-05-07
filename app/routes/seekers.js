@@ -2,7 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const pool    = require('../config/db');
 
-// Список шукачів з пошуком та фільтром
 router.get('/', async (req, res) => {
   const { search = '', status = '' } = req.query;
   const params = [];
@@ -35,7 +34,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Форма додавання нового шукача
 router.get('/new', async (req, res) => {
   const [profs, cons] = await Promise.all([
     pool.query('SELECT * FROM professions ORDER BY name'),
@@ -49,7 +47,6 @@ router.get('/new', async (req, res) => {
   });
 });
 
-// Збереження нового шукача
 router.post('/', async (req, res) => {
   const b = req.body;
   try {
@@ -72,7 +69,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Деталі шукача
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -111,7 +107,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Видалення шукача
 router.post('/:id/delete', async (req, res) => {
   await pool.query('DELETE FROM job_seekers WHERE seeker_id = $1', [req.params.id]);
   res.redirect('/seekers');

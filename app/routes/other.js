@@ -2,7 +2,6 @@ const express = require('express');
 const router  = express.Router();
 const pool    = require('../config/db');
 
-// ── Роботодавці ────────────────────────────────────────────────────────────
 router.get('/employers', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -18,7 +17,6 @@ router.get('/employers', async (req, res) => {
   }
 });
 
-// ── Заявки ─────────────────────────────────────────────────────────────────
 router.get('/applications', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -46,7 +44,6 @@ router.post('/applications/:id/status', async (req, res) => {
   res.redirect('/applications');
 });
 
-// ── Навчання ───────────────────────────────────────────────────────────────
 router.get('/trainings', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -63,7 +60,6 @@ router.get('/trainings', async (req, res) => {
   }
 });
 
-// ── Аналітика ──────────────────────────────────────────────────────────────
 router.get('/analytics', async (req, res) => {
   try {
     const [topProfessions, consEff, statusDist, industryStats] = await Promise.all([
@@ -122,7 +118,6 @@ router.get('/analytics', async (req, res) => {
   }
 });
 
-// ── Smart matching ─────────────────────────────────────────────────────────
 router.get('/match/:seekerId', async (req, res) => {
   const { seekerId } = req.params;
   try {

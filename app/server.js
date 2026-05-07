@@ -11,16 +11,13 @@ const otherRouter     = require('./routes/other');
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Налаштування шаблонів ──────────────────────────────────────────────────
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ── Middleware ─────────────────────────────────────────────────────────────
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ── Головна сторінка ───────────────────────────────────────────────────────
 app.get('/', async (req, res) => {
   try {
     const result = await pool.query(`
@@ -38,12 +35,10 @@ app.get('/', async (req, res) => {
   }
 });
 
-// ── Роутери ────────────────────────────────────────────────────────────────
 app.use('/seekers',   seekersRouter);
 app.use('/vacancies', vacanciesRouter);
 app.use('/',          otherRouter);
 
-// ── Запуск ─────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`Сервер запущено: http://localhost:${PORT}`);
 });
