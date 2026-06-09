@@ -5,4 +5,10 @@ async function list(req, res) {
   res.render('trainings', { trainings, active: 'trainings' });
 }
 
-module.exports = { list };
+async function enroll(req, res) {
+  const { seeker_id, training_id } = req.body;
+  await trainingsRepository.enroll(seeker_id, training_id);
+  res.redirect(`/seekers/${seeker_id}`);
+}
+
+module.exports = { list, enroll };

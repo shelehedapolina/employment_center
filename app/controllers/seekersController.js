@@ -2,6 +2,7 @@ const seekersRepository = require('../repositories/seekersRepository');
 const applicationsRepository = require('../repositories/applicationsRepository');
 const professionsRepository = require('../repositories/professionsRepository');
 const consultantsRepository = require('../repositories/consultantsRepository');
+const trainingsRepository = require('../repositories/trainingsRepository');
 
 async function list(req, res) {
   const { search = '', status = '' } = req.query;
@@ -29,11 +30,13 @@ async function create(req, res) {
 
 async function detail(req, res) {
   const { id } = req.params;
-  const [seeker, education, experience, applications] = await Promise.all([
+  const [seeker, education, experience, applications, enrollments, trainings] = await Promise.all([
     seekersRepository.findById(id),
     seekersRepository.findEducation(id),
     seekersRepository.findWorkExperience(id),
     applicationsRepository.findBySeeker(id),
+    trainingsRepository.findBySeeker(id),
+    trainingsRepository.findAll(),
   ]);
 
   if (!seeker) return res.status(404).send('Шукача не знайдено');
@@ -43,6 +46,8 @@ async function detail(req, res) {
     education,
     experience,
     applications,
+    enrollments,
+    trainings,
     active: 'seekers',
   });
 }

@@ -96,4 +96,40 @@
   <% } %>
 </div>
 
+<div class="card">
+  <h2>Навчання (<%= enrollments.length %>)</h2>
+  <% if (enrollments.length === 0) { %>
+    <p class="muted">Шукач не зарахований на жодну програму</p>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Програма</th><th>Період</th><th>Годин</th><th>Статус</th><th>Оцінка</th></tr></thead>
+      <tbody>
+        <% enrollments.forEach(e => { %>
+          <tr>
+            <td><strong><%= e.name %></strong></td>
+            <td><%= formatDate(e.start_date) %> – <%= formatDate(e.end_date) %></td>
+            <td><%= e.duration_hours %></td>
+            <td><span class="badge badge-info"><%= e.completion_status %></span></td>
+            <td><%= e.final_grade ?? '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <form method="POST" action="/trainings/enroll" class="toolbar">
+    <input type="hidden" name="seeker_id" value="<%= s.seeker_id %>">
+    <select name="training_id" required>
+      <option value="" disabled selected>Оберіть програму…</option>
+      <% trainings.forEach(t => { %>
+        <% const full = t.enrolled >= t.max_students; %>
+        <option value="<%= t.training_id %>" <%= full ? 'disabled' : '' %>>
+          <%= t.name %> (<%= formatDate(t.start_date) %>, місць: <%= t.max_students - t.enrolled %>)<%= full ? ' — немає місць' : '' %>
+        </option>
+      <% }) %>
+    </select>
+    <button type="submit" class="btn btn-success">Зарахувати на навчання</button>
+  </form>
+</div>
+
 <%- include('_footer') %>

@@ -4,6 +4,7 @@ const controller = require('../controllers/trainingsController');
 
 const router = express.Router();
 
-router.get('/', asyncHandler(controller.list));
+router.get('/',        asyncHandler(controller.list));
+router.post('/enroll', asyncHandler(controller.enroll));
 
 module.exports = router;
