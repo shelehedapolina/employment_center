@@ -55,7 +55,24 @@ async function create(data) {
 }
 
 async function remove(id) {
-  await pool.query('DELETE FROM job_seekers WHERE seeker_id = $1', [id]);
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    await client.query(
+      `DELETE FROM placements
+       WHERE application_id IN (SELECT application_id FROM applications WHERE seeker_id = $1)`,
+      [id]
+    );
+    await client.query('DELETE FROM applications WHERE seeker_id = $1', [id]);
+    await client.query('DELETE FROM training_enrollments WHERE seeker_id = $1', [id]);
+    await client.query('DELETE FROM job_seekers WHERE seeker_id = $1', [id]);
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 }
 
 async function findEducation(seekerId) {
