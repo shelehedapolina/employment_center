@@ -1,11 +1,15 @@
 const vacanciesRepository = require('../repositories/vacanciesRepository');
 const employersRepository = require('../repositories/employersRepository');
 const professionsRepository = require('../repositories/professionsRepository');
+const seekersRepository = require('../repositories/seekersRepository');
 
 async function list(req, res) {
   const { minSalary = '' } = req.query;
-  const vacancies = await vacanciesRepository.findActive({ minSalary });
-  res.render('vacancies', { vacancies, minSalary, active: 'vacancies' });
+  const [vacancies, seekers] = await Promise.all([
+    vacanciesRepository.findActive({ minSalary }),
+    seekersRepository.findAll({}),
+  ]);
+  res.render('vacancies', { vacancies, seekers, minSalary, active: 'vacancies' });
 }
 
 async function newForm(req, res) {

@@ -5,6 +5,7 @@ const controller = require('../controllers/applicationsController');
 const router = express.Router();
 
 router.get('/',             asyncHandler(controller.list));
+router.post('/',            asyncHandler(controller.create));
 router.post('/:id/status',  asyncHandler(controller.updateStatus));
 
 module.exports = router;

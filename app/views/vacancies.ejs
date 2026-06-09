@@ -38,6 +38,16 @@
         </td>
         <td class="muted"><%= formatDate(v.posted_date) %></td>
         <td>
+          <form method="POST" action="/applications" class="inline-form">
+            <input type="hidden" name="vacancy_id" value="<%= v.vacancy_id %>">
+            <select name="seeker_id" required>
+              <option value="" disabled selected>Шукач…</option>
+              <% seekers.forEach(s => { %>
+                <option value="<%= s.seeker_id %>"><%= s.last_name %> <%= s.first_name %></option>
+              <% }) %>
+            </select>
+            <button type="submit" class="btn btn-sm btn-success">Подати заявку</button>
+          </form>
           <form method="POST" action="/vacancies/<%= v.vacancy_id %>/delete" class="inline-form" onsubmit="return confirm('Видалити?')">
             <button type="submit" class="btn btn-sm btn-danger">×</button>
           </form>

@@ -18,11 +18,12 @@
       <th>Професія</th>
       <th>Графік</th>
       <th>Зарплата</th>
+      <th>Дії</th>
     </tr>
   </thead>
   <tbody>
     <% if (matches.length === 0) { %>
-      <tr><td colspan="6" class="empty-state">Підходящих вакансій не знайдено</td></tr>
+      <tr><td colspan="7" class="empty-state">Підходящих вакансій не знайдено</td></tr>
     <% } %>
     <% matches.forEach(m => { %>
       <tr>
@@ -36,6 +37,13 @@
         <td>
           <%= formatMoney(m.salary_min, '') %> –
           <strong><%= formatMoney(m.salary_max) %></strong>
+        </td>
+        <td>
+          <form method="POST" action="/applications" class="inline-form">
+            <input type="hidden" name="seeker_id" value="<%= seeker.seeker_id %>">
+            <input type="hidden" name="vacancy_id" value="<%= m.vacancy_id %>">
+            <button type="submit" class="btn btn-sm btn-success">Подати заявку</button>
+          </form>
         </td>
       </tr>
     <% }) %>

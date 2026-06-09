@@ -27,6 +27,14 @@ async function findBySeeker(seekerId) {
   return rows;
 }
 
+async function create(seekerId, vacancyId) {
+  await pool.query(`
+    INSERT INTO applications (seeker_id, vacancy_id)
+    VALUES ($1, $2)
+    ON CONFLICT (seeker_id, vacancy_id) DO NOTHING
+  `, [seekerId, vacancyId]);
+}
+
 async function updateStatus(id, status) {
   await pool.query(
     'UPDATE applications SET status = $1 WHERE application_id = $2',
@@ -34,4 +42,4 @@ async function updateStatus(id, status) {
   );
 }
 
-module.exports = { findAll, findBySeeker, updateStatus };
+module.exports = { findAll, findBySeeker, create, updateStatus };
